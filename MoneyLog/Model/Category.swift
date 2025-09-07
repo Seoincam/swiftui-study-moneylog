@@ -14,7 +14,7 @@ final class Category {
     var name: String
     var type: TransactionType
     
-    @Relationship(deleteRule: .nullify)
+    @Relationship(deleteRule: .cascade, inverse: \Transaction.category)
     var transactions: [Transaction] = []
     
     init(symbol: String, name: String, type: TransactionType) {

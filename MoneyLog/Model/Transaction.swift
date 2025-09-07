@@ -16,7 +16,6 @@ final class Transaction {
     var amount: Int
     var note: String?
     
-    @Relationship(inverse: \Category.transactions)
     var category: Category
     var createdAt: Date
     
@@ -36,6 +35,6 @@ final class Transaction {
 }
 
 enum TransactionType: String, Codable {
-    case income
-    case expense
+    case income = "income"
+    case expense = "expense"
 }

@@ -109,29 +109,31 @@ struct EditTransactionView: View {
                             .font(.title3)
                             .foregroundStyle(.gray)
                             .padding(4)
-
-                        Toggle("날짜", isOn: $enableDate)
+                        
+                        VStack(alignment: .leading) {
+                            Text("날짜")
+                            
+                            if enableDate {
+                                Text(date.formatted(
+                                    Date.FormatStyle()
+                                        .locale(Locale(identifier: "ko"))
+                                        .year()
+                                        .month()
+                                        .day()
+                                        .weekday(.wide)
+                                ))
+                                .font(.caption)
+                                .foregroundStyle(.gray)
+                            }
+                        }
+                        
+                        Toggle("", isOn: $enableDate)
                     }
                     
                     if enableDate {
-                        HStack {
-                            calendarImage
-                                .font(.title3)
-                                .foregroundStyle(.gray)
-                                .padding(4)
-                            
-                            DatePicker(calendarText, selection: $date, displayedComponents: [.date])
-                                .datePickerStyle(.compact)
+                            DatePicker("", selection: $date, displayedComponents: [.date])
+                                .datePickerStyle(.graphical)
                                 .environment(\.locale, Locale(identifier: "ko"))
-                            
-                            Text(date.formatted(
-                                Date.FormatStyle()
-                                    .locale(Locale(identifier: "ko"))
-                                    .weekday(.wide)
-                            ))
-                            .font(.callout)
-                            .foregroundStyle(.gray)
-                        }
                     }
                 }
             }
@@ -145,12 +147,12 @@ struct EditTransactionView: View {
     // MARK: - Helper
     
     private var plusMinus: Text {
-        type == .income ? Text("+") : Text("-")
+        type == TransactionType.income ? Text("+") : Text("-")
     }
 
     
     private var calendarText: String {
-        type == .income ? "입금일" : "출금일"
+        type == TransactionType.income ? "입금일" : "출금일"
     }
     
     private var calendarImage: Image {
@@ -160,7 +162,7 @@ struct EditTransactionView: View {
         return Image(systemName: imageName)
     }
     
-    private var color: Color { type == .income ? .red : .blue }
+    private var color: Color { type == TransactionType.income ? .red : .blue }
     
     private var canAdd: Bool {
         amount != nil

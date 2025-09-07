@@ -12,7 +12,7 @@ struct AddCategoryView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     
-    @State private var type: TransactionType = .income
+    @State private var type: TransactionType = TransactionType.income
 
     @State private var symbol: String = ""
     @State private var name: String = ""
@@ -70,7 +70,6 @@ struct AddCategoryView: View {
     private func addCategory() {
         let category = Category(symbol: symbol, name: name, type: type)
         context.insert(category)
-        try? context.save()
     }
 }
 

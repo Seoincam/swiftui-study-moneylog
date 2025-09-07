@@ -74,7 +74,7 @@ struct SelectCategoryView: View {
     }
     
     private var sectionName: String {
-        type == .income ? "입금" : "지출"
+        type == TransactionType.income ? "입금" : "지출"
     }
 }
 

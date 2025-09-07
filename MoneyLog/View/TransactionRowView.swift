@@ -28,7 +28,7 @@ struct TransactionRowView: View {
     
     
     private var color: Color {
-        transaction.type == .income ? .red : .blue
+        transaction.type == TransactionType.income ? .red : .blue
     }
     
     private var note: Text {
@@ -42,7 +42,7 @@ struct TransactionRowView: View {
     }
     
     private var amountText: Text {
-        let sign = transaction.type == .income ? "+" : "-"
+        let sign = transaction.type == TransactionType.income ? "+" : "-"
         return Text("\(sign)\(transaction.amount, format: WonStyleInt())")
     }
 }
@@ -50,6 +50,6 @@ struct TransactionRowView: View {
 #Preview {
     List {
         TransactionRowView(transaction: Transaction(date: Date.now, type: .expense, amount: 18000, note: "대면 작업 룸 & 밥", category: Category(symbol: "😶", name: "기타 지출", type: .expense)))
-        TransactionRowView(transaction: Transaction(date: Date.now, type: .income, amount: 600000, note: nil, category: Category(symbol: "💵", name: "용돈", type: .income)))
+        TransactionRowView(transaction: Transaction(date: Date.now, type: TransactionType.income, amount: 600000, note: nil, category: Category(symbol: "💵", name: "용돈", type: TransactionType.income)))
     }
 }
