@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TransactionRowView: View {
+struct TransactionRow: View {
     let transaction: Transaction
     
     var body: some View {
@@ -49,7 +49,7 @@ struct TransactionRowView: View {
 
 #Preview {
     List {
-        TransactionRowView(transaction: Transaction(date: Date.now, type: .expense, amount: 18000, note: "대면 작업 룸 & 밥", category: Category(symbol: "😶", name: "기타 지출", type: .expense)))
-        TransactionRowView(transaction: Transaction(date: Date.now, type: TransactionType.income, amount: 600000, note: nil, category: Category(symbol: "💵", name: "용돈", type: TransactionType.income)))
+        TransactionRow(transaction: Transaction(date: Date.now, type: .expense, amount: 18000, note: "대면 작업 룸 & 밥", category: Category(symbol: "😶", name: "기타 지출", type: .expense)))
+        TransactionRow(transaction: Transaction(date: Date.now, type: TransactionType.income, amount: 600000, note: nil, category: Category(symbol: "💵", name: "용돈", type: TransactionType.income)))
     }
 }

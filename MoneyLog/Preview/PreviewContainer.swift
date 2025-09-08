@@ -25,6 +25,7 @@ class  PreviewContainer {
             
         do {
             container = try ModelContainer(for: schema, configurations: [modelConfiguration])
+            container.mainContext.autosaveEnabled = false
             insertPreviewData()
         } catch {
             fatalError("Could not create ModelContainer: \(error)")

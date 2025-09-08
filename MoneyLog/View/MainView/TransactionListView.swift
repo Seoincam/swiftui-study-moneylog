@@ -12,38 +12,34 @@ struct TransactionListView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.calendar) private var calendar
     @Query private var transactions: [Transaction]
-    
-    @State private var selectedTransaction: Transaction? = nil
-    
+        
     var body: some View {
-        List {
-            if !undated.isEmpty {
-                Section(header: Text("날짜 없음")) {
-                    ForEach(undated) { t in
-                        Button {
-                            selectedTransaction = t
-                        } label: {
-                            TransactionRowView(transaction: t)
+        NavigationStack {
+            List {
+                if !undated.isEmpty {
+                    Section(header: Text("날짜 없음")) {
+                        ForEach(undated) { t in
+                            NavigationLink {
+                                TransactionDetail(transaction: t)
+                            } label: {
+                                TransactionRow(transaction: t)
+                            }
+                        }
+                    }
+                }
+                
+                ForEach(sortedDays, id: \.self) { day in
+                    Section(header: Text(sectionTitle(for: day))) {
+                        ForEach (datedDict[day] ?? []) { t in
+                            NavigationLink {
+                                TransactionDetail(transaction: t)
+                            } label: {
+                                TransactionRow(transaction: t)
+                            }
                         }
                     }
                 }
             }
-            
-            ForEach(sortedDays, id: \.self) { day in
-                Section(header: Text(sectionTitle(for: day))) {
-                    ForEach (datedDict[day] ?? []) { t in
-                        Button {
-                            selectedTransaction = t
-                        } label: {
-                            TransactionRowView(transaction: t)
-                        }
-                    }
-                }
-            }
-        }
-        .sheet(item: $selectedTransaction) { t in
-            EditTransactionView(transaction: t)
-                .modelContext(context)
         }
     }
     

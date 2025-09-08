@@ -10,8 +10,7 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @State private var showingAddEdit: Bool = false
-    @State private var type: TransactionType = .expense
+    @State private var showingAdd = false
     
     var body: some View {
         TabView {
@@ -19,7 +18,9 @@ struct ContentView: View {
                 NavigationStack {
                     TransactionSummaryView()
                         .navigationTitle("2025년")
-                        .toolbar { addToolbar }
+                        .toolbar {
+                            ToolbarItem { addButton }
+                        }
                 }
             }
             
@@ -27,27 +28,37 @@ struct ContentView: View {
                 NavigationStack {
                     TransactionListView()
                         .navigationTitle("2025년 8월")
-                        .toolbar { addToolbar }
+                        .toolbar {
+                            ToolbarItem { addButton }
+                        }
                 }
             }
         }
-        .sheet(isPresented: $showingAddEdit) {
+        .sheet(isPresented: $showingAdd) {
             AddEditTransactionView()
         }
     }
     
-    @ToolbarContentBuilder
-    private var addToolbar: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
-            Button("Add Item", systemImage: "plus") {
-                showingAddEdit = true
-            }
+    private var addButton: some View {
+        Button("추가", systemImage: "plus") {
+            showingAdd = true
+        }
+    }
+    
+    private var editButton: some View {
+        Button("편집") {
+            
         }
     }
 }
 
 
-#Preview {
+#Preview("Preview Datas") {
     ContentView()
         .modelContainer(PreviewContainer.shared.container)
+}
+
+#Preview("None Data") {
+    ContentView()
+        .modelContainer(for: Transaction.self, isAutosaveEnabled: false)
 }

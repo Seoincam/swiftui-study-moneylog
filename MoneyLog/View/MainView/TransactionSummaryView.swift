@@ -19,8 +19,8 @@ struct TransactionSummaryView: View {
         categories.filter { $0.type == .expense }
     }
     
-    @State private var showingIncomeCategories = false
-    @State private var showingExpenseCategories = false
+    @State private var showingIncomeTotal = false
+    @State private var showingExpenseTotal = false
     
     var body: some View {
         Form {
@@ -40,7 +40,7 @@ struct TransactionSummaryView: View {
             Section {
                 Button {
                     withAnimation(.default) {
-                        showingIncomeCategories.toggle()
+                        showingIncomeTotal.toggle()
                     }
                     
                 } label: {
@@ -51,12 +51,17 @@ struct TransactionSummaryView: View {
                         Spacer()
                         Text("+\(incomeTotal, format: WonStyleInt())")
                             .foregroundStyle(.red)
+                        
+                        Image(systemName: "chevron.right.circle")
+                            .imageScale(.large)
+                            .foregroundStyle(.secondary)
+                            .rotationEffect(.degrees(showingIncomeTotal ? 90 : 0))
                     }
                     .font(.callout)
                     .foregroundStyle(.foreground)
                 }
                 
-                if (showingIncomeCategories) {
+                if (showingIncomeTotal) {
                     ForEach(incomeCategories) { c in
                         HStack {
                             Text(c.symbol)
@@ -72,7 +77,7 @@ struct TransactionSummaryView: View {
             Section {
                 Button {
                     withAnimation(.default) {
-                        showingExpenseCategories.toggle()
+                        showingExpenseTotal.toggle()
                     }
                 } label: {
                     HStack {
@@ -82,12 +87,17 @@ struct TransactionSummaryView: View {
                         Spacer()
                         Text("-\(expenseTotal, format: WonStyleInt())")
                             .foregroundStyle(.blue)
+                        
+                        Image(systemName: "chevron.right.circle")
+                            .imageScale(.large)
+                            .foregroundStyle(.secondary)
+                            .rotationEffect(.degrees(showingExpenseTotal ? 90 : 0))
                     }
                     .font(.callout)
                     .foregroundStyle(.foreground)
                 }
                 
-                if (showingExpenseCategories) {
+                if (showingExpenseTotal) {
                     ForEach(expenseCategories) { c in
                         HStack {
                             Text(c.symbol)
